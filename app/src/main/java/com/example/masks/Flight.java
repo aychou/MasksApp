@@ -19,7 +19,7 @@ public class Flight {
         this.gameView = gameView;
 
         flight1=BitmapFactory.decodeResource(res, R.drawable.fly1);
-        flight1=BitmapFactory.decodeResource(res, R.drawable.fly1); //should be fly2
+        flight1=BitmapFactory.decodeResource(res, R.drawable.fly2);
         width = flight1.getWidth();
         height = flight1.getHeight();
         width /= 4;
