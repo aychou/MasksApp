@@ -37,9 +37,9 @@ public class MainActivity extends AppCompatActivity {
         final ImageView volumeCtrl= findViewById(R.id.volumeCtrl);
 
         if(isMute)
-            volumeCtrl.setImageResource(R.drawable.ic_baseline_volume_off_24);
-        else
             volumeCtrl.setImageResource(R.drawable.ic_volume_up_black_24dp);
+        else
+            volumeCtrl.setImageResource(R.drawable.ic_baseline_volume_off_24);
 
         volumeCtrl.setOnClickListener(new View.OnClickListener() {
             @Override
