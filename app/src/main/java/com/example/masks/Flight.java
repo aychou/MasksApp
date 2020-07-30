@@ -26,9 +26,10 @@ public class Flight {
         width = flight1.getWidth();
         height = flight1.getHeight();
 
-        width /= 4;
-        height /= 4;
+        width /= 3.5;
+        height /= 3.5;
 
+        // ratio of airplane size
         width = (int)(width*screenRatioX) ;
         height = (int) (height*screenRatioY);
 
