@@ -227,22 +227,57 @@ public class GameView extends SurfaceView implements Runnable {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        // get pointer index from the event object
+        int pointerIndex = event.getActionIndex();
 
-        switch(event.getAction()) {
+        // get pointer ID
+        int pointerId = event.getPointerId(pointerIndex);
+
+        // get masked (not specific to a pointer) action
+        int maskedAction = event.getActionMasked();
+
+        switch(maskedAction) {
             case MotionEvent.ACTION_DOWN:
-                if(event.getX() < screenX / 2){
-                    flight.isGoingUp = true;
-                }
+                    if(event.getX() < screenX / 2){
+                        flight.isGoingUp = true;
+                    }
+
                 break;
             case MotionEvent.ACTION_UP:
-                flight.isGoingUp = false;
-                if(event.getX() > screenX / 2)
-                    flight.toShoot++;
-                break;
+                case MotionEvent.ACTION_POINTER_UP:
+                    flight.isGoingUp = false;
+                    if(event.getX() > screenX / 2)
+                        flight.toShoot++;
+                    break;
+
         }
 
         return true;
     }
+
+//    public boolean onTouchEvent(MotionEvent event){
+//
+//        int amount=event.getPointerCount();
+//        for (int i=0; i<amount; i++) {
+//            float x = event.getX(i);
+//            float y = event.getY(i);
+//
+//
+//            if (x>screenX/2 && flight.toShoot==0){
+//                flight.toShoot++;
+//            }
+//
+//            if (x<screenX/2-500)
+//            {
+//                flight.x = (int) x - 100;
+//                flight.y = (int) y - 50;
+//            }
+//
+//
+//
+//        }
+//        return true;
+//    }
 
     public void newBullet() {
 
