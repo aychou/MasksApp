@@ -3,6 +3,7 @@ package com.example.masks;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 
 import static com.example.masks.GameView.screenRatioX;
 import static com.example.masks.GameView.screenRatioY;
@@ -12,7 +13,7 @@ public class Flight {
     int toShoot = 0;
     boolean isGoingUp = false;
     int x, y, width, height,  wingCounter = 0, shootCounter = 1;
-    Bitmap flight1, flight2, shoot1, shoot2, shoot3, shoot4, shoot5;
+    Bitmap flight1, flight2, shoot1, shoot2, shoot3, shoot4, shoot5, dead;
     private GameView gameView;
 
     Flight(GameView gameView,int screenY, Resources res) {
@@ -21,7 +22,7 @@ public class Flight {
 
         flight1=BitmapFactory.decodeResource(res, R.drawable.fly1);
         flight2=BitmapFactory.decodeResource(res, R.drawable.fly2);
-        
+
         width = flight1.getWidth();
         height = flight1.getHeight();
 
@@ -30,7 +31,6 @@ public class Flight {
 
         width = (int)(width*screenRatioX) ;
         height = (int) (height*screenRatioY);
-
 
         flight1 = Bitmap.createScaledBitmap(flight1,width,height, false);
         flight2 = Bitmap.createScaledBitmap(flight2,width,height, false);
@@ -47,6 +47,9 @@ public class Flight {
         shoot4 = Bitmap.createScaledBitmap(shoot4, width, height, false);
         shoot5 = Bitmap.createScaledBitmap(shoot5, width, height, false);
 
+        dead = BitmapFactory.decodeResource(res, R.drawable.dead);
+        dead = Bitmap.createScaledBitmap(dead, width, height, false);
+
         y = screenY / 2;
         x = (int)(64 * screenRatioX);
     }
@@ -55,15 +58,19 @@ public class Flight {
         if(toShoot != 0) {
 
             if(shootCounter == 1) {
+                shootCounter++;
                 return shoot1;
             }
             if(shootCounter == 2) {
+                shootCounter++;
                 return shoot2;
             }
             if(shootCounter == 3) {
+                shootCounter++;
                 return shoot3;
             }
             if(shootCounter == 4) {
+                shootCounter++;
                 return shoot4;
             }
             shootCounter = 1;
@@ -77,6 +84,14 @@ public class Flight {
         }
         wingCounter--;
         return flight2;
+    }
+
+    Rect getCollisionShape () {
+        return new Rect(x, y, x + width, y + height);
+    }
+
+    Bitmap getDead() {
+        return dead;
     }
 }
 
