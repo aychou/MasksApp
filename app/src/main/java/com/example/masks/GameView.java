@@ -31,10 +31,11 @@ public class GameView extends SurfaceView implements Runnable {
     private Random random;
     private SoundPool soundPool;
     private List<Bullet> bullets;
-    private int sound;
+    private int sound, soundBack;
     private Flight flight;
     private GameActivity activity;
     private Background background1, background2;
+    private boolean bgMusicPlaying=false;
 
     public GameView(GameActivity activity, int screenX, int screenY) {
         super(activity);
@@ -42,6 +43,7 @@ public class GameView extends SurfaceView implements Runnable {
         this.activity=activity;
 
         prefs=activity.getSharedPreferences("game", Context.MODE_PRIVATE);
+
 
         if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.M){
 
@@ -51,11 +53,19 @@ public class GameView extends SurfaceView implements Runnable {
                     .build();
             soundPool = new SoundPool.Builder()
                     .setAudioAttributes(audioAttributes)
+                    .setMaxStreams(2)
                     .build();
+
         }else
-            soundPool = new SoundPool (1, AudioManager.STREAM_MUSIC, 0);
+            soundPool = new SoundPool (2, AudioManager.STREAM_MUSIC, 0);
 
         sound=soundPool.load(activity, R.raw.shoot, 1);
+        soundBack=soundPool.load(activity, R.raw.backmusic, 100);
+
+        if(prefs.getBoolean("isMute", false)) {
+            soundPool.play(soundBack,1, 1, 100, -1, 1);
+        }
+
         this.screenX = screenX;
         this.screenY = screenY;
         screenRatioX = 1920f/screenX;
@@ -91,6 +101,11 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
     private void update () {
+
+        if(prefs.getBoolean("isMute", false) && !bgMusicPlaying) {
+            int played = soundPool.play(soundBack,1, 1, 0, 0, 1);
+            bgMusicPlaying = played == 0;
+        }
 
         background1.x -= (int)(10 * screenRatioX);
         background2.x -= (int)(10 * screenRatioX);

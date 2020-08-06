@@ -2,6 +2,7 @@ package com.example.masks;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     private boolean isMute;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -41,15 +43,18 @@ public class MainActivity extends AppCompatActivity {
         else
             volumeCtrl.setImageResource(R.drawable.ic_baseline_volume_off_24);
 
+
         volumeCtrl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
                 isMute =!isMute;
-                if(isMute)
+                if(isMute) {
                     volumeCtrl.setImageResource(R.drawable.ic_volume_up_black_24dp);
-                else
-                    volumeCtrl.setImageResource(R.drawable.ic_baseline_volume_off_24);
 
+                }
+                else{
+                    volumeCtrl.setImageResource(R.drawable.ic_baseline_volume_off_24);
+                }
                 SharedPreferences.Editor editor =prefs.edit();
                 editor.putBoolean("isMute", isMute);
                 editor.apply();
