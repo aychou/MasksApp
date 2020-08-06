@@ -11,7 +11,6 @@ import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
-import android.provider.MediaStore;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 
@@ -91,14 +90,14 @@ public class GameView extends SurfaceView implements Runnable {
     }
     private void update () {
 
-        background1.x -= 10 * screenRatioX;
-        background2.x -= 10 * screenRatioX;
+        background1.x -= (int)(10 * screenRatioX);
+        background2.x -= (int)(10 * screenRatioX);
 
-        if(background1.x+background1.background.getWidth()<0){
-            background1.x = screenX;
+        if(background1.x + screenX <= 0){
+            background1.x = screenX - 10;
         }
-        if(background2.x+background2.background.getWidth()<0){
-            background2.x = screenX;
+        if(background2.x + screenX <= 0){
+            background2.x = screenX - 10;
         }
         if(flight.isGoingUp)
             flight.y -= 30 * screenRatioY;
@@ -161,6 +160,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         if(getHolder().getSurface().isValid()){
             Canvas canvas=getHolder().lockCanvas();
+            canvas.drawColor(Color.BLACK);
             canvas.drawBitmap(background1.background, background1.x, background1.y, paint);
             canvas.drawBitmap(background2.background, background2.x, background2.y, paint);
 
