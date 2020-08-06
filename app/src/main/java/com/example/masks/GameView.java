@@ -101,10 +101,10 @@ public class GameView extends SurfaceView implements Runnable {
         if(background2.x + screenX <= 0){
             background2.x = screenX - 10;
         }
-        if(flight.isGoingUp)
-            flight.y -= 30 * screenRatioY;
-        else
-            flight.y += 30 * screenRatioY;
+//        if(flight.isGoingUp)
+//            flight.y -= 30 * screenRatioY;
+//        else
+//            flight.y += 30 * screenRatioY;
         if(flight.y < 0)
             flight.y = 0;
         if(flight.y >= screenY - flight.height)
