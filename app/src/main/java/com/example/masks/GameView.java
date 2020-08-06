@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static java.lang.Math.log;
+
 public class GameView extends SurfaceView implements Runnable {
     private Thread thread;
     private boolean isPlaying, isGameOver = false;
@@ -131,7 +133,8 @@ public class GameView extends SurfaceView implements Runnable {
             bullets.remove(bullet);
 
         for(Germ germ : germs) {
-            germ.x -= germ.speed;
+            germ.x -= germ.speed+25*Math.log(Math.max(score, 1));
+
 
             if(germ.x + germ.width < 0){
 
@@ -225,59 +228,59 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        // get pointer index from the event object
-        int pointerIndex = event.getActionIndex();
-
-        // get pointer ID
-        int pointerId = event.getPointerId(pointerIndex);
-
-        // get masked (not specific to a pointer) action
-        int maskedAction = event.getActionMasked();
-
-        switch(maskedAction) {
-            case MotionEvent.ACTION_DOWN:
-                    if(event.getX() < screenX / 2){
-                        flight.isGoingUp = true;
-                    }
-
-                break;
-            case MotionEvent.ACTION_UP:
-                case MotionEvent.ACTION_POINTER_UP:
-                    flight.isGoingUp = false;
-                    if(event.getX() > screenX / 2)
-                        flight.toShoot++;
-                    break;
-
-        }
-
-        return true;
-    }
-
-//    public boolean onTouchEvent(MotionEvent event){
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        // get pointer index from the event object
+//        int pointerIndex = event.getActionIndex();
 //
-//        int amount=event.getPointerCount();
-//        for (int i=0; i<amount; i++) {
-//            float x = event.getX(i);
-//            float y = event.getY(i);
+//        // get pointer ID
+//        int pointerId = event.getPointerId(pointerIndex);
 //
+//        // get masked (not specific to a pointer) action
+//        int maskedAction = event.getActionMasked();
 //
-//            if (x>screenX/2 && flight.toShoot==0){
-//                flight.toShoot++;
-//            }
+//        switch(maskedAction) {
+//            case MotionEvent.ACTION_DOWN:
+//                    if(event.getX() < screenX / 2){
+//                        flight.isGoingUp = true;
+//                    }
 //
-//            if (x<screenX/2-500)
-//            {
-//                flight.x = (int) x - 100;
-//                flight.y = (int) y - 50;
-//            }
-//
-//
+//                break;
+//            case MotionEvent.ACTION_UP:
+//                case MotionEvent.ACTION_POINTER_UP:
+//                    flight.isGoingUp = false;
+//                    if(event.getX() > screenX / 2)
+//                        flight.toShoot++;
+//                    break;
 //
 //        }
+//
 //        return true;
 //    }
+
+    public boolean onTouchEvent(MotionEvent event){
+
+        int amount=event.getPointerCount();
+        for (int i=0; i<amount; i++) {
+            float x = event.getX(i);
+            float y = event.getY(i);
+
+
+            if (x>screenX/2 && flight.toShoot==0){
+                flight.toShoot++;
+            }
+
+            if (x<screenX/2-500)
+            {
+                flight.x = (int) x - 100;
+                flight.y = (int) y - 50;
+            }
+
+
+
+        }
+        return true;
+    }
 
     public void newBullet() {
 

@@ -9,7 +9,7 @@ import static com.example.masks.GameView.screenRatioX;
 import static com.example.masks.GameView.screenRatioY;
 
 public class Germ {
-    public int speed = 1000;
+    public int speed = 100;
     public boolean wasShot = true;
     int x, y, width, height, germCounter = 1;
     Bitmap germ1, germ2, germ3, germ4;
