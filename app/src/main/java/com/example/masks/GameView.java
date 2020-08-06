@@ -133,7 +133,11 @@ public class GameView extends SurfaceView implements Runnable {
             bullets.remove(bullet);
 
         for(Germ germ : germs) {
-            germ.x -= germ.speed+25*Math.log(Math.max(score, 1));
+//            if(score<20){
+//                germ.x= germ.speed+
+//            }
+//            germ.x -= germ.speed+25*Math.log(Math.max(score, 1));
+            germ.x -= germ.speed+10*Math.sqrt(score);
 
 
             if(germ.x + germ.width < 0){
