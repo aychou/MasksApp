@@ -9,10 +9,10 @@ import static com.example.masks.GameView.screenRatioX;
 import static com.example.masks.GameView.screenRatioY;
 
 public class Bullet {
-	int x, y, width, height;
-	Bitmap bullet;
+	public int x, y, width, height;
+	public Bitmap bullet;
 
-	Bullet(Resources res) {
+	public Bullet(Resources res) {
 		bullet = BitmapFactory.decodeResource(res, R.drawable.bullet);
 
 		width = bullet.getWidth();
@@ -29,7 +29,7 @@ public class Bullet {
 		bullet = Bitmap.createScaledBitmap(bullet, width, height, false);
 	}
 
-	Rect getCollisionShape() {
+	public Rect getCollisionShape() {
 		return new Rect(x, y, x + width, y + height);
 	}
 }

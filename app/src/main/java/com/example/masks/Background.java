@@ -5,10 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 public class Background {
-	int x = 0, y = 0;
-	Bitmap background;
+	public int x = 0, y = 0;
+	public Bitmap background;
 
-	Background(int screenX, int screenY, Resources res) {
+	public Background(int screenX, int screenY, Resources res) {
 		background = BitmapFactory.decodeResource(res, R.drawable.background);
 		background = Bitmap.createScaledBitmap(background, screenX + 10, screenY, false);
 	}

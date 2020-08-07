@@ -11,10 +11,10 @@ import static com.example.masks.GameView.screenRatioY;
 public class Germ {
 	public int speed = 100;
 	public boolean wasShot = true;
-	int x, y, width, height, germCounter = 1;
-	Bitmap germ1, germ2, germ3, germ4;
+	public int x, y, width, height, germCounter = 1;
+	public Bitmap germ1, germ2, germ3, germ4;
 
-	Germ(Resources res) {
+	public Germ(Resources res) {
 		germ1 = BitmapFactory.decodeResource(res, R.drawable.germ1);
 		germ2 = BitmapFactory.decodeResource(res, R.drawable.germ2);
 		germ3 = BitmapFactory.decodeResource(res, R.drawable.germ4);
@@ -37,7 +37,7 @@ public class Germ {
 		y = -height;
 	}
 
-	Bitmap getGerm() {
+	public Bitmap getGerm() {
 		if(germCounter == 1) {
 			germCounter++;
 			return germ1;
@@ -55,7 +55,7 @@ public class Germ {
 		return germ4;
 	}
 
-	Rect getCollisionShape() {
+	public Rect getCollisionShape() {
 		return new Rect(x, y, x + width, y + height);
 	}
 }

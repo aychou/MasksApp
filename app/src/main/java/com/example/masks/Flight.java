@@ -9,15 +9,13 @@ import static com.example.masks.GameView.screenRatioX;
 import static com.example.masks.GameView.screenRatioY;
 
 public class Flight {
-
-	int toShoot = 0;
-	boolean isGoingUp = false;
-	int x, y, width, height, wingCounter = 0, shootCounter = 1;
-	Bitmap flight1, flight2, shoot1, shoot2, shoot3, shoot4, shoot5, dead;
+	public int toShoot = 0;
+	public boolean isGoingUp = false;
+	public int x, y, width, height, wingCounter = 0, shootCounter = 1;
+	public Bitmap flight1, flight2, shoot1, shoot2, shoot3, shoot4, shoot5, dead;
 	private GameView gameView;
 
-	Flight(GameView gameView, int screenY, Resources res) {
-
+	public Flight(GameView gameView, int screenY, Resources res) {
 		this.gameView = gameView;
 
 		flight1 = BitmapFactory.decodeResource(res, R.drawable.fly1);
@@ -55,9 +53,8 @@ public class Flight {
 		x = (int) (64 * screenRatioX);
 	}
 
-	Bitmap getFlight() {
+	public Bitmap getFlight() {
 		if(toShoot != 0) {
-
 			if(shootCounter == 1) {
 				shootCounter++;
 				return shoot1;
@@ -87,11 +84,11 @@ public class Flight {
 		return flight2;
 	}
 
-	Rect getCollisionShape() {
+	public Rect getCollisionShape() {
 		return new Rect(x, y, x + width, y + height);
 	}
 
-	Bitmap getDead() {
+	public Bitmap getDead() {
 		return dead;
 	}
 }

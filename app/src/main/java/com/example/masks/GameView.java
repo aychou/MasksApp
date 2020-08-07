@@ -237,43 +237,40 @@ public class GameView extends SurfaceView implements Runnable {
 		}
 	}
 
-	//    @Override
-	//    public boolean onTouchEvent(MotionEvent event) {
-	//        // get pointer index from the event object
-	//        int pointerIndex = event.getActionIndex();
-	//
-	//        // get pointer ID
-	//        int pointerId = event.getPointerId(pointerIndex);
-	//
-	//        // get masked (not specific to a pointer) action
-	//        int maskedAction = event.getActionMasked();
-	//
-	//        switch(maskedAction) {
-	//            case MotionEvent.ACTION_DOWN:
-	//                    if(event.getX() < screenX / 2){
-	//                        flight.isGoingUp = true;
-	//                    }
-	//
-	//                break;
-	//            case MotionEvent.ACTION_UP:
-	//                case MotionEvent.ACTION_POINTER_UP:
-	//                    flight.isGoingUp = false;
-	//                    if(event.getX() > screenX / 2)
-	//                        flight.toShoot++;
-	//                    break;
-	//
-	//        }
-	//
-	//        return true;
-	//    }
+/*	    @Override
+	    public boolean onTouchEvent(MotionEvent event) {
+	        // get pointer index from the event object
+	        int pointerIndex = event.getActionIndex();
+
+	        // get pointer ID
+	        int pointerId = event.getPointerId(pointerIndex);
+
+	        // get masked (not specific to a pointer) action
+	        int maskedAction = event.getActionMasked();
+
+	        switch(maskedAction) {
+	            case MotionEvent.ACTION_DOWN:
+	                    if(event.getX() < screenX / 2){
+	                        flight.isGoingUp = true;
+	                    }
+
+	                break;
+	            case MotionEvent.ACTION_UP:
+	                case MotionEvent.ACTION_POINTER_UP:
+	                    flight.isGoingUp = false;
+	                    if(event.getX() > screenX / 2)
+	                        flight.toShoot++;
+	                    break;
+
+	        }
+
+	        return true;*/
 
 	public boolean onTouchEvent(MotionEvent event) {
-
 		int amount = event.getPointerCount();
 		for(int i = 0; i < amount; i++) {
 			float x = event.getX(i);
 			float y = event.getY(i);
-
 
 			if(x > screenX / 2 && flight.toShoot == 0) {
 				flight.toShoot++;
@@ -283,14 +280,11 @@ public class GameView extends SurfaceView implements Runnable {
 				flight.x = (int) x - 100;
 				flight.y = (int) y - 50;
 			}
-
-
 		}
 		return true;
 	}
 
 	public void newBullet() {
-
 		if(prefs.getBoolean("isMute", false)) {
 			soundPool.play(sound, 1, 1, 0, 0, 1);
 		}
