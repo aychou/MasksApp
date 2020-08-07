@@ -55,8 +55,6 @@ public class GameView extends SurfaceView implements Runnable {
 		sound = soundPool.load(activity, R.raw.shoot, 1);
 
 
-
-
 		this.screenX = screenX;
 		this.screenY = screenY;
 		screenRatioX = 1920f / screenX;
@@ -274,7 +272,7 @@ public class GameView extends SurfaceView implements Runnable {
 
 			if(x < screenX / 2 - 500) {
 				flight.x = (int) x - 100;
-				flight.y = (int) y - 50;
+				flight.y = Math.max(Math.min((int) y - 50, screenY - flight.height), 0);
 			}
 		}
 		return true;
