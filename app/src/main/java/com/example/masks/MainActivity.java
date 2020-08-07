@@ -13,10 +13,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 	private boolean isMute;
+	public MediaPlayer music;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		music = MediaPlayer.create(this, R.raw.backmusic);
+		music.setLooping(true);
 
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_main);
@@ -36,8 +41,13 @@ public class MainActivity extends AppCompatActivity {
 
 		final ImageView volumeCtrl = findViewById(R.id.volumeCtrl);
 
-		if(isMute) volumeCtrl.setImageResource(R.drawable.ic_volume_up_black_24dp);
-		else volumeCtrl.setImageResource(R.drawable.ic_baseline_volume_off_24);
+		if(isMute){
+			volumeCtrl.setImageResource(R.drawable.ic_volume_up_black_24dp);
+			music.start();
+		}
+		else{
+			volumeCtrl.setImageResource(R.drawable.ic_baseline_volume_off_24);
+		}
 
 		volumeCtrl.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -45,8 +55,10 @@ public class MainActivity extends AppCompatActivity {
 				isMute = !isMute;
 				if(isMute) {
 					volumeCtrl.setImageResource(R.drawable.ic_volume_up_black_24dp);
+					music.start();
 				} else {
 					volumeCtrl.setImageResource(R.drawable.ic_baseline_volume_off_24);
+					music.pause();
 				}
 				SharedPreferences.Editor editor = prefs.edit();
 				editor.putBoolean("isMute", isMute);
