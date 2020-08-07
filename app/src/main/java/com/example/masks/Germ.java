@@ -14,7 +14,7 @@ public class Germ {
     int x, y, width, height, germCounter = 1;
     Bitmap germ1, germ2, germ3, germ4;
 
-    Germ (Resources res) {
+    Germ(Resources res) {
         germ1 = BitmapFactory.decodeResource(res, R.drawable.germ1);
         germ2 = BitmapFactory.decodeResource(res, R.drawable.germ2);
         germ3 = BitmapFactory.decodeResource(res, R.drawable.germ4);
@@ -36,6 +36,7 @@ public class Germ {
 
         y = -height;
     }
+
     Bitmap getGerm() {
         if (germCounter == 1) {
             germCounter++;
@@ -54,7 +55,7 @@ public class Germ {
         return germ4;
     }
 
-    Rect getCollisionShape () {
+    Rect getCollisionShape() {
         return new Rect(x, y, x + width, y + height);
     }
 }

@@ -35,19 +35,18 @@ public class GameView extends SurfaceView implements Runnable {
     private Flight flight;
     private GameActivity activity;
     private Background background1, background2;
-    private boolean bgMusicPlaying=false;
+    private boolean bgMusicPlaying = false;
 
     public GameView(GameActivity activity, int screenX, int screenY) {
         super(activity);
 
-        this.activity=activity;
+        this.activity = activity;
 
-        prefs=activity.getSharedPreferences("game", Context.MODE_PRIVATE);
+        prefs = activity.getSharedPreferences("game", Context.MODE_PRIVATE);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
-        if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.M){
-
-            AudioAttributes audioAttributes=new AudioAttributes.Builder()
+            AudioAttributes audioAttributes = new AudioAttributes.Builder()
                     .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                     .setUsage(AudioAttributes.USAGE_GAME)
                     .build();
@@ -56,20 +55,20 @@ public class GameView extends SurfaceView implements Runnable {
                     .setMaxStreams(2)
                     .build();
 
-        }else
-            soundPool = new SoundPool (2, AudioManager.STREAM_MUSIC, 0);
+        } else
+            soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
 
-        sound=soundPool.load(activity, R.raw.shoot, 1);
-        soundBack=soundPool.load(activity, R.raw.backmusic, 100);
+        sound = soundPool.load(activity, R.raw.shoot, 1);
+        soundBack = soundPool.load(activity, R.raw.backmusic, 100);
 
-        if(prefs.getBoolean("isMute", false)) {
-            soundPool.play(soundBack,1, 1, 100, -1, 1);
+        if (prefs.getBoolean("isMute", false)) {
+            soundPool.play(soundBack, 1, 1, 100, -1, 1);
         }
 
         this.screenX = screenX;
         this.screenY = screenY;
-        screenRatioX = 1920f/screenX;
-        screenRatioY = (1080f/screenY);
+        screenRatioX = 1920f / screenX;
+        screenRatioY = (1080f / screenY);
         background1 = new Background(screenX, screenY, getResources());
         background2 = new Background(screenX, screenY, getResources());
 
@@ -85,7 +84,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         germs = new Germ[4];
 
-        for(int i = 0; i < 4; i++){
+        for (int i = 0; i < 4; i++) {
             Germ germ = new Germ(getResources());
             germs[i] = germ;
         }
@@ -95,46 +94,47 @@ public class GameView extends SurfaceView implements Runnable {
     @Override
     public void run() {
         while (isPlaying) {
-            update ();
-            draw ();
-            sleep ();
+            update();
+            draw();
+            sleep();
         }
     }
-    private void update () {
 
-        if(prefs.getBoolean("isMute", false) && !bgMusicPlaying) {
-            int played = soundPool.play(soundBack,1, 1, 0, 0, 1);
+    private void update() {
+
+        if (prefs.getBoolean("isMute", false) && !bgMusicPlaying) {
+            int played = soundPool.play(soundBack, 1, 1, 0, 0, 1);
             bgMusicPlaying = played == 0;
         }
 
-        background1.x -= (int)(10 * screenRatioX);
-        background2.x -= (int)(10 * screenRatioX);
+        background1.x -= (int) (10 * screenRatioX);
+        background2.x -= (int) (10 * screenRatioX);
 
-        if(background1.x + screenX <= 0){
+        if (background1.x + screenX <= 0) {
             background1.x = screenX - 10;
         }
-        if(background2.x + screenX <= 0){
+        if (background2.x + screenX <= 0) {
             background2.x = screenX - 10;
         }
 //        if(flight.isGoingUp)
 //            flight.y -= 30 * screenRatioY;
 //        else
 //            flight.y += 30 * screenRatioY;
-        if(flight.y < 0)
+        if (flight.y < 0)
             flight.y = 0;
-        if(flight.y >= screenY - flight.height)
+        if (flight.y >= screenY - flight.height)
             flight.y = screenY - flight.height;
 
         List<Bullet> trash = new ArrayList<>();
 
-        for(Bullet bullet : bullets) {
-            if(bullet.x > screenX)
+        for (Bullet bullet : bullets) {
+            if (bullet.x > screenX)
                 trash.add(bullet);
 
             bullet.x += 50 * screenRatioX;
 
-            for(Germ germ : germs) {
-                if(Rect.intersects(germ.getCollisionShape(), bullet.getCollisionShape())){
+            for (Germ germ : germs) {
+                if (Rect.intersects(germ.getCollisionShape(), bullet.getCollisionShape())) {
 
                     score++;
                     germ.x = -500;
@@ -144,20 +144,20 @@ public class GameView extends SurfaceView implements Runnable {
             }
         }
 
-        for(Bullet bullet : trash)
+        for (Bullet bullet : trash)
             bullets.remove(bullet);
 
-        for(Germ germ : germs) {
+        for (Germ germ : germs) {
 //            if(score<20){
 //                germ.x= germ.speed+
 //            }
 //            germ.x -= germ.speed+25*Math.log(Math.max(score, 1));
-            germ.x -= germ.speed+10*Math.sqrt(score);
+            germ.x -= germ.speed + 10 * Math.sqrt(score);
 
 
-            if(germ.x + germ.width < 0){
+            if (germ.x + germ.width < 0) {
 
-                if(!germ.wasShot){
+                if (!germ.wasShot) {
                     isGameOver = true;
                     return;
                 }
@@ -165,30 +165,31 @@ public class GameView extends SurfaceView implements Runnable {
                 int bound = (int) (30 * screenRatioX);
                 germ.speed = random.nextInt(bound);
 
-                if(germ.speed < 10 * screenRatioX)
-                    germ.speed = (int)(10 * screenRatioX);
+                if (germ.speed < 10 * screenRatioX)
+                    germ.speed = (int) (10 * screenRatioX);
 
                 germ.x = screenX;
                 germ.y = random.nextInt(screenY - germ.height);
             }
 
-            if(Rect.intersects(germ.getCollisionShape(), flight.getCollisionShape())) {
+            if (Rect.intersects(germ.getCollisionShape(), flight.getCollisionShape())) {
                 isGameOver = true;
                 return;
             }
         }
     }
-    private void draw () {
 
-        if(getHolder().getSurface().isValid()){
-            Canvas canvas=getHolder().lockCanvas();
+    private void draw() {
+
+        if (getHolder().getSurface().isValid()) {
+            Canvas canvas = getHolder().lockCanvas();
             canvas.drawColor(Color.BLACK);
             canvas.drawBitmap(background1.background, background1.x, background1.y, paint);
             canvas.drawBitmap(background2.background, background2.x, background2.y, paint);
 
             for (Germ germ : germs)
                 canvas.drawBitmap(germ.getGerm(), germ.x, germ.y, paint);
-            canvas.drawText(score + "", screenX/2f, 164, paint);
+            canvas.drawText(score + "", screenX / 2f, 164, paint);
 
             if (isGameOver) {
                 isPlaying = false;
@@ -219,26 +220,28 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void saveIfHighScore() {
-        if (prefs.getInt("highscore", 0)<score){
-            SharedPreferences.Editor editor= prefs.edit();
+        if (prefs.getInt("highscore", 0) < score) {
+            SharedPreferences.Editor editor = prefs.edit();
             editor.putInt("highscore", score);
             editor.apply();
         }
     }
 
-    private void sleep () {
+    private void sleep() {
         try {
             Thread.sleep(17);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
-    public void resume () {
-        isPlaying=true;
-        thread= new Thread(this);
+
+    public void resume() {
+        isPlaying = true;
+        thread = new Thread(this);
         thread.start();
     }
-    public void pause () {
+
+    public void pause() {
         try {
             isPlaying = false;
             thread.join();
@@ -277,24 +280,22 @@ public class GameView extends SurfaceView implements Runnable {
 //        return true;
 //    }
 
-    public boolean onTouchEvent(MotionEvent event){
+    public boolean onTouchEvent(MotionEvent event) {
 
-        int amount=event.getPointerCount();
-        for (int i=0; i<amount; i++) {
+        int amount = event.getPointerCount();
+        for (int i = 0; i < amount; i++) {
             float x = event.getX(i);
             float y = event.getY(i);
 
 
-            if (x>screenX/2 && flight.toShoot==0){
+            if (x > screenX / 2 && flight.toShoot == 0) {
                 flight.toShoot++;
             }
 
-            if (x<screenX/2-500)
-            {
+            if (x < screenX / 2 - 500) {
                 flight.x = (int) x - 100;
                 flight.y = (int) y - 50;
             }
-
 
 
         }
@@ -303,8 +304,8 @@ public class GameView extends SurfaceView implements Runnable {
 
     public void newBullet() {
 
-        if(prefs.getBoolean("isMute", false)) {
-            soundPool.play(sound,1, 1, 0, 0, 1);
+        if (prefs.getBoolean("isMute", false)) {
+            soundPool.play(sound, 1, 1, 0, 0, 1);
         }
         Bullet bullet = new Bullet(getResources());
         bullet.x = flight.x + flight.width;

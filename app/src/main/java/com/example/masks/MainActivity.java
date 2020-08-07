@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -30,15 +30,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        TextView highScoreTxt=findViewById(R.id.highScoreTxt);
-        final SharedPreferences prefs=getSharedPreferences("game", MODE_PRIVATE);
+        TextView highScoreTxt = findViewById(R.id.highScoreTxt);
+        final SharedPreferences prefs = getSharedPreferences("game", MODE_PRIVATE);
         highScoreTxt.setText("HighScore: " + prefs.getInt("highscore", 0));
 
-        isMute=prefs.getBoolean("isMute", false);
+        isMute = prefs.getBoolean("isMute", false);
 
-        final ImageView volumeCtrl= findViewById(R.id.volumeCtrl);
+        final ImageView volumeCtrl = findViewById(R.id.volumeCtrl);
 
-        if(isMute)
+        if (isMute)
             volumeCtrl.setImageResource(R.drawable.ic_volume_up_black_24dp);
         else
             volumeCtrl.setImageResource(R.drawable.ic_baseline_volume_off_24);
@@ -46,16 +46,15 @@ public class MainActivity extends AppCompatActivity {
 
         volumeCtrl.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
-                isMute =!isMute;
-                if(isMute) {
+            public void onClick(View view) {
+                isMute = !isMute;
+                if (isMute) {
                     volumeCtrl.setImageResource(R.drawable.ic_volume_up_black_24dp);
 
-                }
-                else{
+                } else {
                     volumeCtrl.setImageResource(R.drawable.ic_baseline_volume_off_24);
                 }
-                SharedPreferences.Editor editor =prefs.edit();
+                SharedPreferences.Editor editor = prefs.edit();
                 editor.putBoolean("isMute", isMute);
                 editor.apply();
             }

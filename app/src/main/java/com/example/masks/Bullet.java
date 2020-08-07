@@ -28,7 +28,8 @@ public class Bullet {
 
         bullet = Bitmap.createScaledBitmap(bullet, width, height, false);
     }
-    Rect getCollisionShape () {
+
+    Rect getCollisionShape() {
         return new Rect(x, y, x + width, y + height);
     }
 }
