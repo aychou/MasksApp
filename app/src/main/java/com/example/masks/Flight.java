@@ -10,78 +10,67 @@ import static com.example.masks.GameView.screenRatioY;
 
 public class Flight {
 	public int toShoot = 0;
-	public boolean isGoingUp = false;
-	public int x, y, width, height, wingCounter = 0, shootCounter = 1;
-	public Bitmap flight1, flight2, shoot1, shoot2, shoot3, shoot4, shoot5, dead;
+	public boolean isGoingUp = false, flapOne = false;
+	public int x, y, width, height, shootCounter = 1;
+	public Bitmap dead;
+	public Bitmap[] shootBitmaps, flights;
 	private GameView gameView;
 
 	public Flight(GameView gameView, int screenY, Resources res) {
 		this.gameView = gameView;
 
-		flight1 = BitmapFactory.decodeResource(res, R.drawable.fly1);
-		flight2 = BitmapFactory.decodeResource(res, R.drawable.fly2);
+		flights = new Bitmap[] {
+			BitmapFactory.decodeResource(res, R.drawable.fly1),
+			BitmapFactory.decodeResource(res, R.drawable.fly2)
+		};
 
-		width = flight1.getWidth();
-		height = flight1.getHeight();
+		width = (int) (flights[0].getWidth() / 3.5 * screenRatioX);
+		height = (int) (flights[0].getHeight() / 3.5 * screenRatioY);
 
-		width /= 3.5;
-		height /= 3.5;
+		flights[0] = Bitmap.createScaledBitmap(flights[0], width, height, false);
+		flights[1] = Bitmap.createScaledBitmap(flights[1], width, height, false);
 
-		// ratio of airplane size
-		width = (int) (width * screenRatioX);
-		height = (int) (height * screenRatioY);
+		shootBitmaps = new Bitmap[] {
+			BitmapFactory.decodeResource(res, R.drawable.shoot1),
+			BitmapFactory.decodeResource(res, R.drawable.shoot2),
+			BitmapFactory.decodeResource(res, R.drawable.shoot3),
+			BitmapFactory.decodeResource(res, R.drawable.shoot4),
+			BitmapFactory.decodeResource(res, R.drawable.shoot5)
+		};
 
-		flight1 = Bitmap.createScaledBitmap(flight1, width, height, false);
-		flight2 = Bitmap.createScaledBitmap(flight2, width, height, false);
-
-		shoot1 = BitmapFactory.decodeResource(res, R.drawable.shoot1);
-		shoot2 = BitmapFactory.decodeResource(res, R.drawable.shoot2);
-		shoot3 = BitmapFactory.decodeResource(res, R.drawable.shoot3);
-		shoot4 = BitmapFactory.decodeResource(res, R.drawable.shoot4);
-		shoot5 = BitmapFactory.decodeResource(res, R.drawable.shoot5);
-
-		shoot1 = Bitmap.createScaledBitmap(shoot1, width, height, false);
-		shoot2 = Bitmap.createScaledBitmap(shoot2, width, height, false);
-		shoot3 = Bitmap.createScaledBitmap(shoot3, width, height, false);
-		shoot4 = Bitmap.createScaledBitmap(shoot4, width, height, false);
-		shoot5 = Bitmap.createScaledBitmap(shoot5, width, height, false);
+		for(int shoot = 0; shoot < shootBitmaps.length; shoot++) {
+			shootBitmaps[shoot] = Bitmap.createScaledBitmap(shootBitmaps[shoot], width, height, false);
+		}
 
 		dead = BitmapFactory.decodeResource(res, R.drawable.dead);
 		dead = Bitmap.createScaledBitmap(dead, width, height, false);
 
-		y = screenY / 2;
 		x = (int) (64 * screenRatioX);
+		y = screenY / 2;
 	}
 
 	public Bitmap getFlight() {
 		if(toShoot != 0) {
-			if(shootCounter == 1) {
-				shootCounter++;
-				return shoot1;
+			shootCounter++;
+			switch(shootCounter) {
+				case 1:
+				case 2:
+				case 3:
+				case 4:
+					return shootBitmaps[shootCounter - 1];
+				default:
+					shootCounter = 1;
+					toShoot--;
+					gameView.newBullet();
+					return shootBitmaps[4];
 			}
-			if(shootCounter == 2) {
-				shootCounter++;
-				return shoot2;
-			}
-			if(shootCounter == 3) {
-				shootCounter++;
-				return shoot3;
-			}
-			if(shootCounter == 4) {
-				shootCounter++;
-				return shoot4;
-			}
-			shootCounter = 1;
-			toShoot--;
-			gameView.newBullet();
-			return shoot5;
 		}
-		if(wingCounter == 0) {
-			wingCounter++;
-			return flight1;
+		flapOne = !flapOne;
+		if(flapOne) {
+			return flights[0];
+		} else {
+			return flights[1];
 		}
-		wingCounter--;
-		return flight2;
 	}
 
 	public Rect getCollisionShape() {

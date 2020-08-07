@@ -268,9 +268,9 @@ public class GameView extends SurfaceView implements Runnable {
 
 	public boolean onTouchEvent(MotionEvent event) {
 		int amount = event.getPointerCount();
-		for(int i = 0; i < amount; i++) {
-			float x = event.getX(i);
-			float y = event.getY(i);
+		for(int pointer = 0; pointer < amount; pointer++) {
+			float x = event.getX(pointer);
+			float y = event.getY(pointer);
 
 			if(x > screenX / 2 && flight.toShoot == 0) {
 				flight.toShoot++;
