@@ -12,26 +12,14 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-	private boolean isMute;
-	public MediaPlayer music;
-	
+	private boolean isMute = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		music = MediaPlayer.create(this, R.raw.backmusic);
-		music.setLooping(true);
 
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_main);
-
-		findViewById(R.id.play).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				startActivity(new Intent(MainActivity.this, GameActivity.class));
-			}
-		});
 
 		TextView highScoreTxt = findViewById(R.id.highScoreTxt);
 		final SharedPreferences prefs = getSharedPreferences("game", MODE_PRIVATE);
@@ -43,26 +31,37 @@ public class MainActivity extends AppCompatActivity {
 
 		if(isMute){
 			volumeCtrl.setImageResource(R.drawable.ic_volume_up_black_24dp);
-			music.start();
+			BackgroundMusic.getMedia(this).play();
 		}
 		else{
 			volumeCtrl.setImageResource(R.drawable.ic_baseline_volume_off_24);
+			BackgroundMusic.getMedia(this).pause();
 		}
+
+		final MainActivity activity = this;
 
 		volumeCtrl.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				isMute = !isMute;
-				if(isMute) {
+				if(!isMute) {
 					volumeCtrl.setImageResource(R.drawable.ic_volume_up_black_24dp);
-					music.start();
+					BackgroundMusic.getMedia(activity).play();
 				} else {
 					volumeCtrl.setImageResource(R.drawable.ic_baseline_volume_off_24);
-					music.pause();
+					BackgroundMusic.getMedia(activity).pause();
+					System.out.println("Stopped One");
 				}
+				isMute = !isMute;
 				SharedPreferences.Editor editor = prefs.edit();
 				editor.putBoolean("isMute", isMute);
 				editor.apply();
+			}
+		});
+
+		findViewById(R.id.play).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				startActivity(new Intent(MainActivity.this, GameActivity.class));
 			}
 		});
 	}
