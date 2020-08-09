@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
 		BackgroundMusic.init(this);
 
+		System.out.println("Recreated Main");
+
 		if(isMute){
 			volumeCtrl.setImageResource(R.drawable.ic_volume_up_black_24dp);
 			BackgroundMusic.play();

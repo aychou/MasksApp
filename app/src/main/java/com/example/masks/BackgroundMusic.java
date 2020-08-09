@@ -50,14 +50,18 @@ public class BackgroundMusic {
 
 	public static void pause(boolean noPlayingUpdate) {
 		if(music.isPlaying()) {
-			System.out.println("Pause");
+			System.out.println("Soft Pause");
 			music.pause();
 		}
 	}
 
 	public static void reinstate() {
-		if(music.isPlaying() && playing) {
+		if(!music.isPlaying() && playing) {
 			play();
+			System.out.println("Play Reinstated");
+		}
+		else {
+			System.out.println("No Play Reinstated");
 		}
 	}
 }
