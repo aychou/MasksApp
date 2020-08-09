@@ -26,12 +26,15 @@ public class GameActivity extends AppCompatActivity {
 	@Override
 	protected void onPause() {
 		super.onPause();
+		BackgroundMusic.getMedia(this).pause();
 		gameView.pause();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
+		BackgroundMusic.getMedia(this).play();
 		gameView.resume();
 	}
+
 }

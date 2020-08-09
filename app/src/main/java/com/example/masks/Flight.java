@@ -16,7 +16,7 @@ public class Flight {
 	public Bitmap[] shootBitmaps, flights;
 	private GameView gameView;
 
-	public Flight(GameView gameView, int screenY, Resources res) {
+	public Flight(GameView gameView, int screenY, int screenX, Resources res) {
 		this.gameView = gameView;
 
 		flights = new Bitmap[] {
@@ -24,8 +24,8 @@ public class Flight {
 			BitmapFactory.decodeResource(res, R.drawable.fly2)
 		};
 
-		width = (int) (flights[0].getWidth() / 3.5 * screenRatioX);
-		height = (int) (flights[0].getHeight() / 3.5 * screenRatioY);
+		width = (int) ( Math.max(1, (int)(.13*(float)(screenX))));
+		height = (int) (Math.max(1, (int)(.1*(float)(screenX))));
 
 		flights[0] = Bitmap.createScaledBitmap(flights[0], width, height, false);
 		flights[1] = Bitmap.createScaledBitmap(flights[1], width, height, false);

@@ -14,7 +14,7 @@ public class Germ {
 	public int x, y, width, height, germCounter = 1;
 	public Bitmap germ1, germ2, germ3, germ4;
 
-	public Germ(Resources res) {
+	public Germ(Resources res, int screenX, int screenY) {
 		germ1 = BitmapFactory.decodeResource(res, R.drawable.germ1);
 		germ2 = BitmapFactory.decodeResource(res, R.drawable.germ2);
 		germ3 = BitmapFactory.decodeResource(res, R.drawable.germ4);
@@ -23,8 +23,8 @@ public class Germ {
 		width = germ1.getWidth();
 		height = germ1.getHeight();
 
-		width /= 6;
-		height /= 6;
+		width = Math.max(1, (int)(.04*(float)(screenX)));
+		height = Math.max(1, (int)(.04*(float)screenX));
 
 		width = (int) (screenRatioX * width);
 		height = (int) (screenRatioY * height);

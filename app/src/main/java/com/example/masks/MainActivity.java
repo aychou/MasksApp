@@ -65,4 +65,14 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 	}
+	@Override
+	public void onPause() {
+		super.onPause();
+		BackgroundMusic.getMedia(this).pause();
+	}
+	@Override
+	public void onResume() {
+		super.onResume();
+		BackgroundMusic.getMedia(this).play();
+	}
 }

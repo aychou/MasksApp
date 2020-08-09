@@ -31,7 +31,6 @@ public class GameView extends SurfaceView implements Runnable {
 	private Random random;
 	private SoundPool soundPool;
 	private List<Bullet> bullets;
-
 	private int sound;
 	private Flight flight;
 	private GameActivity activity;
@@ -40,7 +39,7 @@ public class GameView extends SurfaceView implements Runnable {
 
 	public GameView(GameActivity activity, int screenX, int screenY) {
 		super(activity);
-
+		System.out.println(null==activity);
 		this.activity = activity;
 
 		prefs = activity.getSharedPreferences("game", Context.MODE_PRIVATE);
@@ -62,7 +61,7 @@ public class GameView extends SurfaceView implements Runnable {
 		background1 = new Background(screenX, screenY, getResources());
 		background2 = new Background(screenX, screenY, getResources());
 
-		flight = new Flight(this, screenY, getResources());
+		flight = new Flight(this, screenY, screenX, getResources());
 
 		bullets = new ArrayList<>();
 
@@ -75,7 +74,7 @@ public class GameView extends SurfaceView implements Runnable {
 		germs = new Germ[4];
 
 		for(int i = 0; i < 4; i++) {
-			Germ germ = new Germ(getResources());
+			Germ germ = new Germ(getResources(), screenX, screenY);
 			germs[i] = germ;
 		}
 		random = new Random();
@@ -287,4 +286,5 @@ public class GameView extends SurfaceView implements Runnable {
 		bullet.y = flight.y + (flight.height / 2);
 		bullets.add(bullet);
 	}
+
 }
