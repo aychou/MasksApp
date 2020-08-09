@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="48sp"
-        android:text="I Have To Fly!"
+        android:text="Mask App"
         android:textColor="#ffffff"
         android:layout_above="@id/play"
         android:layout_below="@id/highScoreTxt"

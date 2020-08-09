@@ -286,5 +286,4 @@ public class GameView extends SurfaceView implements Runnable {
 		bullet.y = flight.y + (flight.height / 2);
 		bullets.add(bullet);
 	}
-
 }

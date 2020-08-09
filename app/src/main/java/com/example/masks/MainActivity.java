@@ -29,26 +29,26 @@ public class MainActivity extends AppCompatActivity {
 
 		final ImageView volumeCtrl = findViewById(R.id.volumeCtrl);
 
+		BackgroundMusic.init(this);
+
 		if(isMute){
 			volumeCtrl.setImageResource(R.drawable.ic_volume_up_black_24dp);
-			BackgroundMusic.getMedia(this).play();
+			BackgroundMusic.play();
 		}
 		else{
 			volumeCtrl.setImageResource(R.drawable.ic_baseline_volume_off_24);
-			BackgroundMusic.getMedia(this).pause();
+			BackgroundMusic.pause();
 		}
-
-		final MainActivity activity = this;
 
 		volumeCtrl.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				if(!isMute) {
 					volumeCtrl.setImageResource(R.drawable.ic_volume_up_black_24dp);
-					BackgroundMusic.getMedia(activity).play();
+					BackgroundMusic.play();
 				} else {
 					volumeCtrl.setImageResource(R.drawable.ic_baseline_volume_off_24);
-					BackgroundMusic.getMedia(activity).pause();
+					BackgroundMusic.pause();
 					System.out.println("Stopped One");
 				}
 				isMute = !isMute;
@@ -68,11 +68,11 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	public void onPause() {
 		super.onPause();
-		BackgroundMusic.getMedia(this).pause();
+		BackgroundMusic.pause(true);
 	}
 	@Override
 	public void onResume() {
 		super.onResume();
-		BackgroundMusic.getMedia(this).play();
+		BackgroundMusic.reinstate();
 	}
 }
